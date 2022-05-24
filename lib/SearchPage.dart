@@ -5,7 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:temp/EnterAmount.dart';
 import 'package:temp/ScanQR.dart';
-import 'package:temp/config.dart';
+import "package:flutter/services.dart" as s;
+import "package:yaml/yaml.dart";
 
 import 'NavBar.dart';
 import 'main.dart';
@@ -19,9 +20,10 @@ class User {
 List<User> li = [];
 
 dynamic getUserfromQuery(String query) async {
-  var url = returnHost() + ":8080";
-  final response =
-      await http.get(Uri.http(url, "walletengine/user/query/" + query));
+   String yamlString = await s.rootBundle.loadString("lib/config.yaml");
+  links = loadYaml(yamlString);
+  var url = links['host'] + links['search'] + query;
+  final response = await http.get(Uri.parse(url));
 
   if (response.statusCode == 200) {
     final jsonResponse = jsonDecode(response.body);

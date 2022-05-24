@@ -1,0 +1,7 @@
+
+host: 'http://34.100.165.85/'
+transfer: 'walletengine/transfer'
+search: 'walletengine/user/query/'
+get_transactions : 'walletengine/get/transactions/'
+get_user: 'walletengine/user/'
+get_balance: 'walletengine/balance/'

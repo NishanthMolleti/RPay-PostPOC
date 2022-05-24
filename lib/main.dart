@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
-import 'package:temp/rakutenPoints.dart';
 import 'package:temp/splash.dart';
 import 'package:flutter/services.dart';
+import "package:flutter/services.dart" as s;
+import "package:yaml/yaml.dart";
 
+var loginrefresh = false;
 String receiverUid = "";
 String receiverName = "";
 bool refresh = true;
-dynamic uid = "anirudh@rakuten.com";
-dynamic uname = "Anirudh G";
+dynamic uid;
+dynamic uname;
 int balance = 0;
 
 dynamic getBalance() async {
-  var url = "10.0.2.2:8080";
-  final response = await http.get(Uri.http(url, "walletengine/balance/" + uid));
+  String yamlString = await s.rootBundle.loadString("lib/config.yaml");
+  links = loadYaml(yamlString);
+  var url = links['host'] + links['get_balance'] + uid;
+  final response = await http.get(Uri.parse(url));
 
   if (response.statusCode == 200) {
     balance = int.parse(response.body.toString());
@@ -22,7 +26,9 @@ dynamic getBalance() async {
   }
 }
 
-void main() async {
+Map links = {};
+
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
@@ -36,7 +42,7 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       builder: (BuildContext context) => MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'RPay',
         home: Splash(),
       ),
       designSize: const Size(375, 812),

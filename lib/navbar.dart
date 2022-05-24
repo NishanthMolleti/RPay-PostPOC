@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:temp/SearchPage.dart';
 import 'package:temp/main.dart';
+import 'package:temp/payments.dart';
 import 'package:temp/qrcodepage.dart';
 
 import 'loginScreen.dart';
@@ -79,6 +80,13 @@ class Navbar extends StatelessWidget {
                   drawDivider(),
                   GestureDetector(
                       onTap: (() {
+                        loginrefresh = false;
+                        receiverUid = "";
+                        receiverName = "";
+                        refresh = true;
+                        uid = '';
+                        uname = '';
+                        balance = 0;
                         Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
                                 builder: (BuildContext context) =>

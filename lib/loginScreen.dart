@@ -1,18 +1,21 @@
 // ignore_for_file: file_names
-
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:temp/config.dart';
-import '../main.dart';
-import 'myhome.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import "package:flutter/services.dart" as s;
+import "package:yaml/yaml.dart";
+import 'main.dart';
+import 'snack_bar.dart';
+import 'myhome.dart';
 
 dynamic getUserfromInfo(contact) async {
-  var url = returnHost()+":8080";
-  final response =
-      await http.get(Uri.http(url, "walletengine/user/" + contact));
+  String yamlString = await s.rootBundle.loadString("lib/config.yaml");
+  links = loadYaml(yamlString);
+  var url = links['host'] + links['get_user'] + contact;
+  print(url);
+  final response = await http.get(Uri.parse(url));
   if (response.statusCode == 200) {
     final jsonResponse = jsonDecode(response.body);
     balance = jsonResponse["balance"];
@@ -22,11 +25,19 @@ dynamic getUserfromInfo(contact) async {
   }
 }
 
-// ignore: must_be_immutable
-class LoginScreen extends StatelessWidget {
-  LoginScreen({Key? key}) : super(key: key);
-  String userId = '';
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+// ignore: must_be_immutable
+class _LoginScreenState extends State<LoginScreen> {
+  String userId = '';
+  String password = '';
+  Color uidColor = Colors.black;
+  Color passwordColor = Colors.black;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,12 +69,15 @@ class LoginScreen extends StatelessWidget {
                       border: const OutlineInputBorder(),
                       labelStyle: TextStyle(
                         fontSize: 25.0.sp,
-                        color: Colors.black,
+                        color: uidColor,
                       ),
                       hintStyle:
                           TextStyle(color: Colors.black, fontSize: 30.0.sp),
                     ),
                     onChanged: (value) {
+                      setState(() {
+                        uidColor = Colors.black;
+                      });
                       userId = value;
                     },
                   ),
@@ -76,15 +90,22 @@ class LoginScreen extends StatelessWidget {
                   child: TextField(
                     obscureText: true,
                     decoration: InputDecoration(
+                      iconColor: Colors.green,
                       labelText: 'Password',
                       border: const OutlineInputBorder(),
                       labelStyle: TextStyle(
                         fontSize: 25.0.sp,
-                        color: Colors.black,
+                        color: passwordColor,
                       ),
                       hintStyle:
                           TextStyle(color: Colors.white, fontSize: 30.0.sp),
                     ),
+                    onChanged: (value) {
+                      setState(() {
+                        passwordColor = Colors.black;
+                      });
+                      password = value;
+                    },
                   ),
                 ),
                 Padding(
@@ -106,19 +127,38 @@ class LoginScreen extends StatelessWidget {
                       onPressed: () async {
                         final result = await Connectivity().checkConnectivity();
                         if (result == ConnectivityResult.none) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: const Text(
-                                  "You are not connected to internet. Please check your connection"),
-                              action: SnackBarAction(
-                                label: 'OK',
-                                onPressed: () {},
-                              )));
+                          snackBar(context,
+                              'You are not connected to internet. Please check your connection');
                         } else {
-                          await getUserfromInfo(userId);
-                          Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                  builder: (context) => const MyHomePage()),
-                              (route) => false);
+                          if (userId != '' && password != '') {
+                            var response = await getUserfromInfo(userId);
+                            if (response['status'] == 1) {
+                              loginrefresh = true;
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const MyHomePage()));
+                            } else {
+                              setState(() {
+                                uidColor = Colors.red;
+                                passwordColor = Colors.red;
+                              });
+                              snackBar(context, 'Entered wrong Credentials');
+                            }
+                          } else {
+                            snackBar(context, 'Enter necessary Credentials');
+                          }
+                          if (userId == '') {
+                            setState(() {
+                              uidColor = Colors.red;
+                            });
+                          }
+                          if (password == '') {
+                            setState(() {
+                              passwordColor = Colors.red;
+                            });
+                          }
                         }
                       },
                     ),

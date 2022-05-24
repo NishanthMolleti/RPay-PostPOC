@@ -3,28 +3,32 @@ import 'package:http/http.dart' as http;
 import 'package:temp/TransactionComplete.dart';
 import 'dart:convert';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:temp/config.dart';
-
+import "package:flutter/services.dart" as s;
+import "package:yaml/yaml.dart";
 import 'EnterAmount.dart';
 import 'main.dart';
 
-var jsonres;
+dynamic jsonres;
 
 sendPostRequest() async {
+  String yamlString = await s.rootBundle.loadString("lib/config.yaml");
+  links = loadYaml(yamlString);
+
   Map data = {
     "sender": uid.toString(),
-    "receiver": receiverUid,
+    "receiver": receiverUid.toString(),
     "amount": int.parse(text.toString().replaceAll(',', ''))
   };
   Map<String, String> headers = {
-    'Content-type': 'application/json',
-    'Accept': 'application/json',
+    'Content-Type': 'application/json; charset=UTF-8',
   };
-  var body = json.encode(data);
-  var url = returnHost() + ":8080";
-  final response = await http.post(Uri.http(url, "walletengine/transfer"),
-      body: body, headers: headers);
+  print(data);
+  print(headers);
+  var body = jsonEncode(data);
+  var url = links['host'] + links['transfer'];
+  final response = await http.post(Uri.parse(url), body: body);
   jsonres = response.body;
+  print(response.statusCode);
   return "";
 }
 
@@ -94,7 +98,7 @@ class ConfirmPayment extends StatelessWidget {
                             )));
                       } else {
                         await sendPostRequest();
-                        jsonres = json.decode(jsonres);
+                        jsonres = json.decode(jsonres.toString());
                         if (jsonres["status"] == 1) {
                           text = '0';
                           Navigator.of(context).popUntil(

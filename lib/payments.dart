@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:temp/config.dart';
 import 'package:temp/utils/dateFunctions.dart';
 import 'dialogBox.dart';
 import 'main.dart';
@@ -11,6 +10,8 @@ import 'models/Transactions.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:math';
+import "package:flutter/services.dart" as s;
+import "package:yaml/yaml.dart";
 
 var current_date;
 
@@ -33,19 +34,19 @@ class _TransactionsState extends State<Transactions> {
       RefreshController(initialRefresh: true);
 
   Future<bool> getTransactionData({bool isRefresh = false}) async {
+    String yamlString = await s.rootBundle.loadString("lib/config.yaml");
+    links = loadYaml(yamlString);
+
     if (isRefresh) {
       currentPage = 1;
     } else {
-      if (currentPage >= totalpages + 1) {
-        print(currentPage);
-        print(totalpages);
+      if (currentPage > totalpages + 1) {
         refreshController.loadNoData();
         return true;
       }
     }
     final Uri uri = Uri.parse(
-        "http://"+returnHost()+":8080/walletengine/get/transactions/$uid/$currentPage");
-
+        links['host'] + links['get_transactions'] + "$uid/$currentPage");
     final response = await http.get(uri);
 
     if (response.statusCode == 200) {
@@ -92,10 +93,10 @@ class _TransactionsState extends State<Transactions> {
 
   @override
   void initState() {
+    print("init");
     refresh = true;
     // TODO: implement initState
     super.initState();
-    print("init");
   }
 
   @override
