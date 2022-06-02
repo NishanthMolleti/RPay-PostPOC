@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, non_constant_identifier_names, avoid_print
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -14,15 +14,21 @@ dynamic getUserfromInfo(contact) async {
   String yamlString = await s.rootBundle.loadString("lib/config.yaml");
   links = loadYaml(yamlString);
   var url = links['host'] + links['get_user'] + contact;
-  print(url);
-  final response = await http.get(Uri.parse(url));
+  var response = await http.get(Uri.parse(url));
   if (response.statusCode == 200) {
     final jsonResponse = jsonDecode(response.body);
     balance = jsonResponse["balance"];
     uname = jsonResponse["name"];
     uid = jsonResponse["user_login_id"];
-    return jsonResponse;
+    rakutenPoints = jsonResponse["rakuten_points"];
+    cashBack = jsonResponse["cash_back"];
   }
+  url = links['host'] + links['get_cards'] + contact;
+  final card_response = await http.get(Uri.parse(url));
+  if (response.statusCode == 200) {
+    cards = jsonDecode(card_response.body);
+  }
+  return jsonDecode(response.body);
 }
 
 class LoginScreen extends StatefulWidget {

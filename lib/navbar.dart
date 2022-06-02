@@ -59,9 +59,10 @@ class Navbar extends StatelessWidget {
                 }),
                 child: NamedTextButton("Send Money")),
             drawDivider(),
-            account_Balance_Widget("Cash Back", "\$0"),
+            account_Balance_Widget("Cash Back", "\$ $cashBack"),
             drawDivider(),
-            account_Balance_Widget("Rakuten Points", "0P"),
+            account_Balance_Widget(
+                "Rakuten Points", rakutenPoints.toString() + "P"),
             drawDivider(),
             GestureDetector(
                 onTap: (() {

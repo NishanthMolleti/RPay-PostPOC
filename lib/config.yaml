@@ -1,7 +1,12 @@
 
-host: 'http://34.100.165.85/'
+host: 'http://10.0.2.2:8080/'
 transfer: 'walletengine/transfer'
 search: 'walletengine/user/query/'
 get_transactions : 'walletengine/get/transactions/'
 get_user: 'walletengine/user/'
 get_balance: 'walletengine/balance/'
+get_rakuten_points: 'walletengine/rakuten-points/'
+get_cash_back: 'walletengine/cash-back/'
+get_cards: 'walletengine/cards/get/all/' 
+
+

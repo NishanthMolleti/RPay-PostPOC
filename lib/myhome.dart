@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:temp/buildPayments.dart';
@@ -33,6 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print(cards[0]["card_number"]);
     topMargin = appbar(context).preferredSize.height;
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -54,18 +57,11 @@ class _MyHomePageState extends State<MyHomePage> {
           margin: EdgeInsets.only(top: topMargin * 1.9.h),
           child: Column(
             children: [
-              // 
               CarouselSlider.builder(
                   carouselController: controller1,
-                  itemCount: 2,
+                  itemCount: cards.length,
                   itemBuilder: (context, index, realIndex) {
-                    if (index == 0) {
-                      return buildPage(context, Colors.blue.withOpacity(0.3),
-                          "Prepaid", activeIndex);
-                    } else {
-                      return buildPage(context, Colors.pink.withOpacity(0.3),
-                          "Pay Later", activeIndex);
-                    }
+                    return buildPage(context,cards[index],activeIndex);
                   },
                   options: CarouselOptions(
                       initialPage: 0,

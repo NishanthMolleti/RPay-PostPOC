@@ -13,6 +13,9 @@ bool refresh = true;
 dynamic uid;
 dynamic uname;
 int balance = 0;
+int rakutenPoints = 0;
+double cashBack = 0;
+dynamic cards; 
 
 dynamic getBalance() async {
   String yamlString = await s.rootBundle.loadString("lib/config.yaml");

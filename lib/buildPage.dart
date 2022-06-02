@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, prefer_const_constructors, unused_import
 import 'package:flutter/material.dart';
 import 'package:temp/buildPayments.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,8 +11,7 @@ import 'buildIndicator.dart';
 
 Widget buildPage(
   BuildContext context,
-  dynamic c,
-  String cardType,
+  dynamic card,
   int activeIndex,
 ) =>
     Container(
@@ -29,9 +28,9 @@ Widget buildPage(
                         bottom: Radius.circular(35.r)),
                   ),
                   context: context,
-                  builder: (context) => bottomSheet(context));
+                  builder: (context) => bottomSheet(context,card));
             },
-            child: buildCard(cardType, c, context)),
+            child: buildCard(card, context)),
         //balance
         GestureDetector(
             onTap: () {

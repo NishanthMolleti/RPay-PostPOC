@@ -3,13 +3,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:temp/rakutenPoints.dart';
 
+import 'main.dart';
+
 AppBar appbar(context) => AppBar(
       // title: const Text('Transparent AppBar'),
       // leading: const BackButton(),
       actions: [
         GestureDetector(
-          onTap: (() => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => rakutenPoints('Cash Back')))),
+          onTap: (() => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => rakutenPointsScreen(
+                      "\$" + cashBack.toString(), "Cash Back")))),
           child: Column(children: [
             Text(
               "Cash Back",
@@ -22,7 +27,7 @@ AppBar appbar(context) => AppBar(
               ),
             ),
             Text(
-              "\$ 87.35 ",
+              "\$ $cashBack",
               style: GoogleFonts.roboto(
                 textStyle: TextStyle(
                     fontSize: 18.sp,
@@ -40,8 +45,11 @@ AppBar appbar(context) => AppBar(
           thickness: 1,
         ),
         GestureDetector(
-          onTap: (() => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => rakutenPoints('Rakuten Points')))),
+          onTap: (() => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => rakutenPointsScreen(
+                      rakutenPoints.toString() + " P", "Rakuten Points")))),
           child: Column(children: [
             SizedBox(
               child: Text(
@@ -57,7 +65,7 @@ AppBar appbar(context) => AppBar(
             ),
             SizedBox(
               child: Text(
-                "147 Points",
+                "$rakutenPoints Points",
                 style: GoogleFonts.roboto(
                   textStyle: TextStyle(
                       fontSize: 18.sp,

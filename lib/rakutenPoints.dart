@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dotted_line/dotted_line.dart';
 
-Widget rakutenPoints(String text) {
+Widget rakutenPointsScreen(String text, String type) {
+  print(text);
   return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -27,7 +28,7 @@ Widget rakutenPoints(String text) {
           ),
           width: double.infinity,
           child: Text(
-            text,
+            type,
             textAlign: TextAlign.center,
             style: GoogleFonts.roboto(
               textStyle: TextStyle(
@@ -41,7 +42,7 @@ Widget rakutenPoints(String text) {
           margin: EdgeInsets.only(top: 150.h),
           width: double.infinity,
           child: Text(
-            "\$87.35",
+            text,
             textAlign: TextAlign.center,
             style: GoogleFonts.roboto(
               textStyle: TextStyle(

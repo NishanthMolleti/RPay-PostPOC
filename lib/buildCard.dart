@@ -1,13 +1,18 @@
+// ignore_for_file: unused_import, prefer_const_constructors, unused_local_variable
+import "package:flutter/services.dart" as s;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:temp/buildSheet.dart';
+import 'package:yaml/yaml.dart';
 
-Container buildCard(String cardType, dynamic c, BuildContext context) {
+import 'constants/colors.dart';
+
+Container buildCard(dynamic card, BuildContext context) {
   return Container(
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(11.r),
-      color: c,
+      color: card_colors[card["type"]],
     ),
     width: 295.w,
     height: 170.h,
@@ -31,7 +36,7 @@ Container buildCard(String cardType, dynamic c, BuildContext context) {
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 19.0.w),
                 child: Text(
-                  cardType,
+                  card["type"],
                   textAlign: TextAlign.right,
                   style: TextStyle(
                     fontFamily: 'Bitter',
