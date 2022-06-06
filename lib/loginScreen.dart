@@ -1,5 +1,7 @@
-// ignore_for_file: file_names, non_constant_identifier_names, avoid_print
+// ignore_for_file: file_names, non_constant_identifier_names, avoid_print, unused_field
+import 'dart:async';
 import 'dart:convert';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,7 +16,9 @@ dynamic getUserfromInfo(contact) async {
   String yamlString = await s.rootBundle.loadString("lib/config.yaml");
   links = loadYaml(yamlString);
   var url = links['host'] + links['get_user'] + contact;
+  EasyLoading.show(status: 'loading...');
   var response = await http.get(Uri.parse(url));
+  await Future.delayed(const Duration(seconds: 10), () {});
   if (response.statusCode == 200) {
     final jsonResponse = jsonDecode(response.body);
     balance = jsonResponse["balance"];
@@ -22,6 +26,7 @@ dynamic getUserfromInfo(contact) async {
     uid = jsonResponse["user_login_id"];
     rakutenPoints = jsonResponse["rakuten_points"];
     cashBack = jsonResponse["cash_back"];
+    EasyLoading.showSuccess('Success!');
   }
   url = links['host'] + links['get_cards'] + contact;
   final card_response = await http.get(Uri.parse(url));
@@ -44,6 +49,18 @@ class _LoginScreenState extends State<LoginScreen> {
   String password = '';
   Color uidColor = Colors.black;
   Color passwordColor = Colors.black;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    EasyLoading.addStatusCallback((status) {
+      if (status == EasyLoadingStatus.dismiss) {
+        _timer?.cancel();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -138,6 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         } else {
                           if (userId != '' && password != '') {
                             var response = await getUserfromInfo(userId);
+                            EasyLoading.dismiss();
                             if (response['status'] == 1) {
                               loginrefresh = true;
                               Navigator.pushReplacement(

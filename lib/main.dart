@@ -1,4 +1,9 @@
+// ignore_for_file: unused_element, unused_import
+
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'package:temp/splash.dart';
@@ -15,7 +20,7 @@ dynamic uname;
 int balance = 0;
 int rakutenPoints = 0;
 double cashBack = 0;
-dynamic cards; 
+dynamic cards;
 
 dynamic getBalance() async {
   String yamlString = await s.rootBundle.loadString("lib/config.yaml");
@@ -36,6 +41,24 @@ void main() {
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(const MyApp());
+  configLoading();
+}
+
+void configLoading() {
+  EasyLoading.instance
+    ..displayDuration = const Duration(milliseconds: 2000)
+    ..indicatorType = EasyLoadingIndicatorType.fadingCircle
+    ..loadingStyle = EasyLoadingStyle.dark
+    ..indicatorSize = 45.0
+    ..radius = 10.0
+    ..progressColor = Colors.yellow
+    ..backgroundColor = Colors.green
+    ..indicatorColor = Colors.yellow
+    ..textColor = Colors.yellow
+    ..maskColor = Colors.blue.withOpacity(0.5)
+    ..userInteractions = true
+    ..dismissOnTap = false;
+  // ..customAnimation = CustomAnimation();
 }
 
 class MyApp extends StatelessWidget {
@@ -47,6 +70,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'RPay',
         home: Splash(),
+        builder: EasyLoading.init(),
       ),
       designSize: const Size(375, 812),
     );

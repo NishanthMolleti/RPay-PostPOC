@@ -1,4 +1,9 @@
+// ignore_for_file: unused_local_variable
+
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
 import 'package:temp/TransactionComplete.dart';
 import 'dart:convert';
@@ -22,18 +27,36 @@ sendPostRequest() async {
   Map<String, String> headers = {
     'Content-Type': 'application/json; charset=UTF-8',
   };
-  print(data);
-  print(headers);
   var body = jsonEncode(data);
   var url = links['host'] + links['transfer'];
+  EasyLoading.show(status: 'loading...');
+  await Future.delayed(const Duration(seconds: 10), () {});
   final response = await http.post(Uri.parse(url), body: body);
+  if (response.statusCode == 200) {
+    EasyLoading.showSuccess('Success!');
+  }
   jsonres = response.body;
-  print(response.statusCode);
   return "";
 }
 
-class ConfirmPayment extends StatelessWidget {
+class ConfirmPayment extends StatefulWidget {
   const ConfirmPayment({Key? key}) : super(key: key);
+
+  @override
+  State<ConfirmPayment> createState() => _ConfirmPaymentState();
+}
+
+class _ConfirmPaymentState extends State<ConfirmPayment> {
+  Timer? _timer;
+  @override
+  void initState() {
+    super.initState();
+    EasyLoading.addStatusCallback((status) {
+      if (status == EasyLoadingStatus.dismiss) {
+        _timer?.cancel();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -111,6 +134,7 @@ class ConfirmPayment extends StatelessWidget {
                                 builder: (context) =>
                                     const TransactionComplete()),
                           );
+                          EasyLoading.dismiss();
                         } else {
                           Navigator.of(context)
                               .pushNamed("/TransactionIncomplete");

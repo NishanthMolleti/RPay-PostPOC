@@ -20,7 +20,7 @@ class User {
 List<User> li = [];
 
 dynamic getUserfromQuery(String query) async {
-   String yamlString = await s.rootBundle.loadString("lib/config.yaml");
+  String yamlString = await s.rootBundle.loadString("lib/config.yaml");
   links = loadYaml(yamlString);
   var url = links['host'] + links['search'] + query;
   final response = await http.get(Uri.parse(url));
