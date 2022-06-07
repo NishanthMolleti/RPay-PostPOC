@@ -1,7 +1,8 @@
+// ignore_for_file: camel_case_types
+
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-import 'NavBar.dart';
 import 'main.dart';
 
 class qrcodepage extends StatelessWidget {
@@ -18,28 +19,6 @@ class qrcodepage extends StatelessWidget {
         ),
         elevation: 0,
         centerTitle: true,
-        // leading: Builder(
-        //   builder: (BuildContext context) {
-        //     return IconButton(
-        //       icon: const Icon(
-        //         Icons.menu,
-        //         color: Colors.black,
-        //       ),
-        //       onPressed: () {
-        //         Scaffold.of(context).openDrawer();
-        //       },
-        //       tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-        //     );
-        //   },
-        // ),
-        // actions: [
-        //   TextButton(
-        //     child: Text("Cancel"),
-        //     onPressed: () {
-        //       Navigator.pop(context);
-        //     },
-        //   ),
-        // ],
         backgroundColor: Colors.white,
         title: Image.asset(
           "assets/images/RakutenPay.jpg",
@@ -48,8 +27,6 @@ class qrcodepage extends StatelessWidget {
         ),
       ),
       body: Center(
-        //     crossAxisAlignment: CrossAxisAlignment.center,
-        //      mainAxisAlignment: MainAxisAlignment.center,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

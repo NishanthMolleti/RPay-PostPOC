@@ -1,13 +1,13 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, no_logic_in_create_state
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:temp/buildPayments.dart';
-import 'appbar.dart';
+import 'utils/appbar.dart';
 import 'buildIndicator.dart';
 import 'buildPage.dart';
 import 'main.dart';
-import 'navbar.dart';
+import 'utils/navbar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 late _MyHomePageState myHomePageState;
@@ -35,7 +35,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print(cards[0]["card_number"]);
     topMargin = appbar(context).preferredSize.height;
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -46,9 +45,10 @@ class _MyHomePageState extends State<MyHomePage> {
           decoration: BoxDecoration(
             image: DecorationImage(
               image: const AssetImage("assets/images/image.jpeg"),
-              alignment: (activeIndex == 0)
-                  ? const Alignment(-0.6, 1)
-                  : const Alignment(-0.5, 1),
+              alignment: Alignment(-0.6 + (0.1 * activeIndex), 1),
+              // (activeIndex == 0)
+              //     ? Alignment(-0.6 + (0.1 * activeIndex), 1)
+              //     : const Alignment(-0.5, 1),
               fit: BoxFit.cover,
             ),
           ),
@@ -61,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   carouselController: controller1,
                   itemCount: cards.length,
                   itemBuilder: (context, index, realIndex) {
-                    return buildPage(context,cards[index],activeIndex);
+                    return buildPage(context, cards[index], activeIndex);
                   },
                   options: CarouselOptions(
                       initialPage: 0,

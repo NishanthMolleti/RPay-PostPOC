@@ -1,9 +1,8 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-
+import 'package:temp/utils/navbar.dart';
 import 'ConfirmPayment.dart';
-import 'NavBar.dart';
 import 'main.dart';
 
 class TransactionComplete extends StatelessWidget {
@@ -13,7 +12,7 @@ class TransactionComplete extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      drawer: Navbar(),
+      drawer: const Navbar(),
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,

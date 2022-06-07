@@ -1,12 +1,11 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, non_constant_identifier_names
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:temp/SearchPage.dart';
 import 'package:temp/main.dart';
-import 'package:temp/payments.dart';
 import 'package:temp/qrcodepage.dart';
 
-import 'loginScreen.dart';
+import '../loginScreen.dart';
 
 class Navbar extends StatelessWidget {
   const Navbar({Key? key}) : super(key: key);
@@ -91,7 +90,7 @@ class Navbar extends StatelessWidget {
                         Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
                                 builder: (BuildContext context) =>
-                                    LoginScreen()),
+                                    const LoginScreen()),
                             (Route<dynamic> route) => false);
                       }),
                       child: NamedTextButton("Log out")),

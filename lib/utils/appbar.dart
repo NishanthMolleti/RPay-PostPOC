@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:temp/rakutenPoints.dart';
-
-import 'main.dart';
+import '../main.dart';
 
 AppBar appbar(context) => AppBar(
       // title: const Text('Transparent AppBar'),

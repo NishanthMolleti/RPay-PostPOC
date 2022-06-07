@@ -2,6 +2,8 @@
 //
 //     final Transactions = TransactionsFromJson(jsonString);
 
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:convert';
 
 Transactions TransactionsFromJson(String str) =>

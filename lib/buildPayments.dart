@@ -16,7 +16,6 @@ Widget buildPayments(
         if (details.delta.dx > sensitivity) {
           // Right Swipe
           controller1.nextPage();
-          print("right");
         } else if (details.delta.dx < -sensitivity) {
           //Left Swipe
           controller1.nextPage();
@@ -56,7 +55,6 @@ Widget buildPayments(
           } else if (details.delta.dx < -sensitivity) {
             //Left Swipe
             controller1.previousPage();
-            print('left');
           }
         },
         child: SingleChildScrollView(

@@ -1,14 +1,12 @@
 // ignore_for_file: file_names
-
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:temp/EnterAmount.dart';
 import 'package:temp/ScanQR.dart';
 import "package:flutter/services.dart" as s;
+import 'package:temp/utils/navbar.dart';
 import "package:yaml/yaml.dart";
-
-import 'NavBar.dart';
 import 'main.dart';
 
 class User {
@@ -29,10 +27,7 @@ dynamic getUserfromQuery(String query) async {
     final jsonResponse = jsonDecode(response.body);
     var u = jsonResponse['users'];
     li.clear();
-    print("In function getUserFRomQuery query is " + query);
     if (query == "" || query == null) {
-      print("li from function ");
-      print(li);
       return;
     }
     for (int i = 0; i < u.length; i++) {
@@ -41,8 +36,6 @@ dynamic getUserfromQuery(String query) async {
         li.add(obj);
       }
     }
-    print("li from function ");
-    print(li);
   }
 }
 
@@ -97,7 +90,6 @@ class _SearchPage extends State<SearchPage> {
                       li.remove(li[i]);
                     }
                   }
-                  print("from auto complete ");
                   return li
                       .where((User user) => user.name
                           .toLowerCase()
@@ -113,11 +105,8 @@ class _SearchPage extends State<SearchPage> {
                     controller: fieldTextEditingController,
                     focusNode: fieldFocusNode,
                     onChanged: (query) async {
-                      print("query is " + query);
                       await getUserfromQuery(query.toString());
                       setState(() {});
-                      print("li from onChange ");
-                      print(li);
                     },
                     decoration: const InputDecoration(
                       prefixIcon: Icon(Icons.search),
@@ -131,7 +120,6 @@ class _SearchPage extends State<SearchPage> {
                 onSelected: (User selection) {
                   receiverName = selection.name;
                   receiverUid = selection.userLoginId;
-                  print('Selected: $receiverName $receiverUid');
                 },
                 optionsViewBuilder: (BuildContext context,
                     AutocompleteOnSelected<User> onSelected,
@@ -183,7 +171,6 @@ class _SearchPage extends State<SearchPage> {
             heroTag: "hero8",
             backgroundColor: Colors.red,
             onPressed: () {
-              print("opening camera...");
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => ScanQrPage()));
             },

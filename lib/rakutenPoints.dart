@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dotted_line/dotted_line.dart';
 
 Widget rakutenPointsScreen(String text, String type) {
-  print(text);
   return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -16,8 +15,8 @@ Widget rakutenPointsScreen(String text, String type) {
         Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: const AssetImage("assets/images/image.jpeg"),
-              alignment: const Alignment(-0.6, 1),
+              image: AssetImage("assets/images/image.jpeg"),
+              alignment: Alignment(-0.6, 1),
               fit: BoxFit.cover,
             ),
           ),

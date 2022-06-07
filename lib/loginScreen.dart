@@ -1,22 +1,21 @@
 // ignore_for_file: file_names, non_constant_identifier_names, avoid_print, unused_field
 import 'dart:async';
 import 'dart:convert';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import "package:flutter/services.dart" as s;
-import "package:yaml/yaml.dart";
+import 'package:temp/utils/loadingBar.dart';
+import 'package:yaml/yaml.dart';
 import 'main.dart';
 import 'snack_bar.dart';
 import 'myhome.dart';
+import "package:flutter/services.dart" as s;
 
 dynamic getUserfromInfo(contact) async {
   String yamlString = await s.rootBundle.loadString("lib/config.yaml");
   links = loadYaml(yamlString);
   var url = links['host'] + links['get_user'] + contact;
-  EasyLoading.show(status: 'loading...');
   var response = await http.get(Uri.parse(url));
   await Future.delayed(const Duration(seconds: 10), () {});
   if (response.statusCode == 200) {
@@ -26,7 +25,6 @@ dynamic getUserfromInfo(contact) async {
     uid = jsonResponse["user_login_id"];
     rakutenPoints = jsonResponse["rakuten_points"];
     cashBack = jsonResponse["cash_back"];
-    EasyLoading.showSuccess('Success!');
   }
   url = links['host'] + links['get_cards'] + contact;
   final card_response = await http.get(Uri.parse(url));
@@ -49,17 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String password = '';
   Color uidColor = Colors.black;
   Color passwordColor = Colors.black;
-  Timer? _timer;
-
-  @override
-  void initState() {
-    super.initState();
-    EasyLoading.addStatusCallback((status) {
-      if (status == EasyLoadingStatus.dismiss) {
-        _timer?.cancel();
-      }
-    });
-  }
+  LoadingBar lb = LoadingBar();
 
   @override
   Widget build(BuildContext context) {
@@ -154,8 +142,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               'You are not connected to internet. Please check your connection');
                         } else {
                           if (userId != '' && password != '') {
+                            lb.on();
                             var response = await getUserfromInfo(userId);
-                            EasyLoading.dismiss();
+                            lb.off();
                             if (response['status'] == 1) {
                               loginrefresh = true;
                               Navigator.pushReplacement(
@@ -188,6 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
+                lb
               ],
             ),
           ));

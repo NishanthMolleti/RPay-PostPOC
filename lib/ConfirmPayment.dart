@@ -1,24 +1,14 @@
-// ignore_for_file: unused_local_variable
-
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
 import 'package:temp/TransactionComplete.dart';
 import 'dart:convert';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import "package:flutter/services.dart" as s;
-import "package:yaml/yaml.dart";
+import 'package:temp/utils/loadingBar.dart';
 import 'EnterAmount.dart';
 import 'main.dart';
 
 dynamic jsonres;
-
 sendPostRequest() async {
-  String yamlString = await s.rootBundle.loadString("lib/config.yaml");
-  links = loadYaml(yamlString);
-
   Map data = {
     "sender": uid.toString(),
     "receiver": receiverUid.toString(),
@@ -29,12 +19,8 @@ sendPostRequest() async {
   };
   var body = jsonEncode(data);
   var url = links['host'] + links['transfer'];
-  EasyLoading.show(status: 'loading...');
   await Future.delayed(const Duration(seconds: 10), () {});
   final response = await http.post(Uri.parse(url), body: body);
-  if (response.statusCode == 200) {
-    EasyLoading.showSuccess('Success!');
-  }
   jsonres = response.body;
   return "";
 }
@@ -47,17 +33,7 @@ class ConfirmPayment extends StatefulWidget {
 }
 
 class _ConfirmPaymentState extends State<ConfirmPayment> {
-  Timer? _timer;
-  @override
-  void initState() {
-    super.initState();
-    EasyLoading.addStatusCallback((status) {
-      if (status == EasyLoadingStatus.dismiss) {
-        _timer?.cancel();
-      }
-    });
-  }
-
+  LoadingBar lb = LoadingBar();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,47 +83,54 @@ class _ConfirmPaymentState extends State<ConfirmPayment> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  FloatingActionButton.extended(
-                    heroTag: "Hero4",
-                    onPressed: () async {
-                      final result = await Connectivity().checkConnectivity();
-                      if (result == ConnectivityResult.none) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: const Text(
-                                "You are not connected to internet. Please check your connection"),
-                            action: SnackBarAction(
-                              label: 'OK',
-                              onPressed: () {},
-                            )));
-                      } else {
-                        await sendPostRequest();
-                        jsonres = json.decode(jsonres.toString());
-                        if (jsonres["status"] == 1) {
-                          text = '0';
-                          Navigator.of(context).popUntil(
-                            (route) => route.isFirst,
-                          );
-                          Navigator.pop(context);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const TransactionComplete()),
-                          );
-                          EasyLoading.dismiss();
-                        } else {
-                          Navigator.of(context)
-                              .pushNamed("/TransactionIncomplete");
-                        }
-                      }
-                    },
-                    backgroundColor: Colors.red,
-                    extendedTextStyle: const TextStyle(
-                      fontSize: 35,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    label: const Text("Pay"),
-                  ),
+                  lb.getIsLoading()
+                      ? const Text("")
+                      : FloatingActionButton.extended(
+                          heroTag: "Hero4",
+                          onPressed: () async {
+                            final result =
+                                await Connectivity().checkConnectivity();
+                            if (result == ConnectivityResult.none) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: const Text(
+                                          "You are not connected to internet. Please check your connection"),
+                                      action: SnackBarAction(
+                                        label: 'OK',
+                                        onPressed: () {},
+                                      )));
+                            } else {
+                              lb.on();
+                              setState(() {});
+                              await sendPostRequest();
+                              lb.off();
+                              jsonres = json.decode(jsonres.toString());
+                              if (jsonres["status"] == 1) {
+                                text = '0';
+                                Navigator.of(context).popUntil(
+                                  (route) => route.isFirst,
+                                );
+                                Navigator.pop(context);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const TransactionComplete()),
+                                );
+                              } else {
+                                Navigator.of(context)
+                                    .pushNamed("/TransactionIncomplete");
+                              }
+                            }
+                          },
+                          backgroundColor: Colors.red,
+                          extendedTextStyle: const TextStyle(
+                            fontSize: 35,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          label: const Text("Pay"),
+                        ),
+                  lb
                 ],
               )
             ],

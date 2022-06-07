@@ -10,10 +10,6 @@ import 'models/Transactions.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:math';
-import "package:flutter/services.dart" as s;
-import "package:yaml/yaml.dart";
-
-var current_date;
 
 class Transactions extends StatefulWidget {
   // ignore: use_key_in_widget_constructors
@@ -34,9 +30,6 @@ class _TransactionsState extends State<Transactions> {
       RefreshController(initialRefresh: true);
 
   Future<bool> getTransactionData({bool isRefresh = false}) async {
-    String yamlString = await s.rootBundle.loadString("lib/config.yaml");
-    links = loadYaml(yamlString);
-
     if (isRefresh) {
       currentPage = 1;
     } else {
@@ -93,9 +86,7 @@ class _TransactionsState extends State<Transactions> {
 
   @override
   void initState() {
-    print("init");
     refresh = true;
-    // TODO: implement initState
     super.initState();
   }
 

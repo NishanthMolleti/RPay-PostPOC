@@ -3,11 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-// import 'package:test/NavBar.dart';
-// import 'package:test/appbar.dart';
-// import 'package:test/main.dart';
-final balance = 1000;
-
 class TopupScreen extends StatefulWidget {
   const TopupScreen({Key? key}) : super(key: key);
 

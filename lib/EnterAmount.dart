@@ -108,7 +108,6 @@ class _CalculatorState extends State<Calculator> {
                                 int enteredAmount = int.parse(
                                     text.toString().replaceAll(',', ''));
                                 if (enteredAmount > balance) {
-                                  print("inside if $balance");
                                   showDialog(
                                       context: context,
                                       builder: (context) => AlertDialog(
@@ -130,8 +129,7 @@ class _CalculatorState extends State<Calculator> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            const ConfirmPayment()),
+                                        builder: (context) => ConfirmPayment()),
                                   );
                                 }
                               },

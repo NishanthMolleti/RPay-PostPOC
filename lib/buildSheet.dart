@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, unused_local_variable, file_names
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,7 +6,6 @@ import 'package:temp/utils/toast.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Widget bottomSheet(context, card) {
-  print(card);
   final card_number = card["card_number"].toString();
   final expire_on = card["expire_on"];
   final security_code = card["security_code"];

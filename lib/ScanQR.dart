@@ -40,11 +40,8 @@ class _ScanQrPageState extends State<ScanQrPage> {
         receiverName = "from barcode";
         receiverUid = result!.code!;
       }
-      print(result!.code);
       dynamic response = result!.code!;
-      print(response);
       response = jsonDecode(response);
-      print(response);
       receiverName = response['name'];
       receiverUid = response['user_login_id'];
       Timer(const Duration(seconds: 0), () {
