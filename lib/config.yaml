@@ -1,4 +1,3 @@
-
 host: 'http://192.168.29.213:8080/'
 transfer: 'walletengine/transfer'
 search: 'walletengine/user/query/'
@@ -8,5 +7,8 @@ get_balance: 'walletengine/balance/'
 get_rakuten_points: 'walletengine/rakuten-points/'
 get_cash_back: 'walletengine/cash-back/'
 get_cards: 'walletengine/cards/get/all/' 
-
-
+redeem_cb: 'walletengine/cash-back/redeem'
+redeem_rp: 'walletengine/rakuten-points/redeem'
+update_cb: 'walletengine/cash-back/'
+update_rp: 'walletengine/rakuten-points/'
+update_balance: 'walletengine/balance/'

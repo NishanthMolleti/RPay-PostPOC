@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import '../main.dart';
+import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 Widget buildBalance(int activeIndex) {
   if (activeIndex == 0) {

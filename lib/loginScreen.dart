@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:temp/utils/loadingBar.dart';
 import 'package:yaml/yaml.dart';
 import 'main.dart';
@@ -16,8 +17,9 @@ dynamic getUserfromInfo(contact) async {
   String yamlString = await s.rootBundle.loadString("lib/config.yaml");
   links = loadYaml(yamlString);
   var url = links['host'] + links['get_user'] + contact;
+  print(url);
   var response = await http.get(Uri.parse(url));
-  await Future.delayed(const Duration(seconds: 10), () {});
+  await Future.delayed(const Duration(seconds: 4), () {});
   if (response.statusCode == 200) {
     final jsonResponse = jsonDecode(response.body);
     balance = jsonResponse["balance"];
@@ -146,6 +148,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             var response = await getUserfromInfo(userId);
                             lb.off();
                             if (response['status'] == 1) {
+                              final SharedPreferences sharedPreferences =
+                                  await SharedPreferences.getInstance();
+                              sharedPreferences.setString("uid", userId);
                               loginrefresh = true;
                               Navigator.pushReplacement(
                                   context,

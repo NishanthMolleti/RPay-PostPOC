@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:temp/myhome.dart';
 import 'loginScreen.dart';
+import 'main.dart';
+import 'package:temp/utils/loadingBar.dart';
+
+dynamic finalUid;
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
@@ -10,13 +16,34 @@ class Splash extends StatefulWidget {
 }
 
 class _Splash extends State<Splash> {
+  LoadingBar lb = LoadingBar();
   @override
   void initState() {
     super.initState();
-    Timer(
-        const Duration(seconds: 3),
-        () => Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => LoginScreen())));
+    getValidationData().whenComplete(() async {
+      if (finalUid == null) {
+        Timer(const Duration(seconds: 3), () {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => LoginScreen()));
+        });
+      } else {
+        lb.on();
+        var response = await getUserfromInfo(finalUid);
+        loginrefresh = true;
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const MyHomePage()));
+        lb.off();
+      }
+    });
+  }
+
+  Future getValidationData() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    dynamic uid = sharedPreferences.getString("uid");
+    setState(() {
+      finalUid = uid;
+    });
   }
 
   @override
@@ -38,6 +65,10 @@ class _Splash extends State<Splash> {
               Text("Let's  get  started",
                   style:
                       TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold)),
+              const SizedBox(
+                height: 10,
+              ),
+              lb
             ]),
       ),
     );

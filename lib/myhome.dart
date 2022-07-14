@@ -34,6 +34,13 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    print("home refreshed");
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     topMargin = appbar(context).preferredSize.height;
     return Scaffold(

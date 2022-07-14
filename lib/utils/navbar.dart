@@ -1,6 +1,7 @@
 // ignore_for_file: file_names, non_constant_identifier_names
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:temp/SearchPage.dart';
 import 'package:temp/main.dart';
 import 'package:temp/qrcodepage.dart';
@@ -79,7 +80,10 @@ class Navbar extends StatelessWidget {
                   NamedTextButton("Support"),
                   drawDivider(),
                   GestureDetector(
-                      onTap: (() {
+                      onTap: (() async {
+                        final SharedPreferences sharedPreferences =
+                            await SharedPreferences.getInstance();
+                        sharedPreferences.remove('uid');
                         loginrefresh = false;
                         receiverUid = "";
                         receiverName = "";

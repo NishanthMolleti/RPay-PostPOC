@@ -4,10 +4,12 @@ import 'package:temp/buildPayments.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:temp/buildSheet.dart';
 import 'package:temp/topup.dart';
+import 'package:temp/utils/appbar.dart';
 
 import 'buildBalance.dart';
 import 'buildCard.dart';
 import 'buildIndicator.dart';
+
 
 Widget buildPage(
   BuildContext context,
@@ -28,7 +30,7 @@ Widget buildPage(
                         bottom: Radius.circular(35.r)),
                   ),
                   context: context,
-                  builder: (context) => bottomSheet(context,card));
+                  builder: (context) => bottomSheet(context, card));
             },
             child: buildCard(card, context)),
         //balance

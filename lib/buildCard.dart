@@ -12,7 +12,7 @@ Container buildCard(dynamic card, BuildContext context) {
   return Container(
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(11.r),
-      color: card_colors[card["type"]],
+      color: card_colors[0],
     ),
     width: 295.w,
     height: 170.h,

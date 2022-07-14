@@ -19,7 +19,8 @@ sendPostRequest() async {
   };
   var body = jsonEncode(data);
   var url = links['host'] + links['transfer'];
-  await Future.delayed(const Duration(seconds: 10), () {});
+  print(url);
+  await Future.delayed(const Duration(seconds: 4), () {});
   final response = await http.post(Uri.parse(url), body: body);
   jsonres = response.body;
   return "";

@@ -40,6 +40,7 @@ class _TransactionsState extends State<Transactions> {
     }
     final Uri uri = Uri.parse(
         links['host'] + links['get_transactions'] + "$uid/$currentPage");
+    print(uri);
     final response = await http.get(uri);
 
     if (response.statusCode == 200) {

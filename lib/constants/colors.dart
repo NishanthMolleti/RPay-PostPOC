@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 
 Map card_colors = {
-  "Freedom": Colors.red.withOpacity(0.3),
-  "PrePaid": Colors.green.withOpacity(0.3),
-  "PayLater": Colors.pink.withOpacity(0.3),
-  "PostPaid": Colors.blue.withOpacity(0.3)
+  0 : Colors.red.withOpacity(0.3),
+  1 : Colors.green.withOpacity(0.3),
+  2 : Colors.pink.withOpacity(0.3),
+  3 : Colors.blue.withOpacity(0.3)
 };

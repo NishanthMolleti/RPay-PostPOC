@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:temp/rakutenPoints.dart';
+import 'package:temp/acoount_screens/cashBack.dart';
+import 'package:temp/acoount_screens/rakutenPoints.dart';
 import '../main.dart';
 
 AppBar appbar(context) => AppBar(
@@ -9,11 +10,8 @@ AppBar appbar(context) => AppBar(
       // leading: const BackButton(),
       actions: [
         GestureDetector(
-          onTap: (() => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => rakutenPointsScreen(
-                      "\$" + cashBack.toString(), "Cash Back")))),
+          onTap: (() => Navigator.push(context,
+              MaterialPageRoute(builder: (context) => cashBackScreen()))),
           child: Column(children: [
             Text(
               "Cash Back",
@@ -44,11 +42,8 @@ AppBar appbar(context) => AppBar(
           thickness: 1,
         ),
         GestureDetector(
-          onTap: (() => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => rakutenPointsScreen(
-                      rakutenPoints.toString() + " P", "Rakuten Points")))),
+          onTap: (() => Navigator.push(context,
+              MaterialPageRoute(builder: (context) => rakutenPointsScreen()))),
           child: Column(children: [
             SizedBox(
               child: Text(
