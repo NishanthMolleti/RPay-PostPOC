@@ -1,4 +1,5 @@
-host: 'http://192.168.29.213:8080/'
+# host: 'http://192.168.29.213:8080/' for desktops 
+host: 'http://10.0.2.2:8080/'
 transfer: 'walletengine/transfer'
 search: 'walletengine/user/query/'
 get_transactions : 'walletengine/get/transactions/'
