@@ -230,7 +230,7 @@ class _CBScreenState extends State<CBScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
-                                    children: <Widget>[
+                                    children: const <Widget>[
                                       Text("Please try after some time",
                                           style: TextStyle(
                                             color: Colors.red,
@@ -263,7 +263,7 @@ class _CBScreenState extends State<CBScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
-                                    children: <Widget>[
+                                    children: const <Widget>[
                                       Text("Redeem Success",
                                           style: TextStyle(
                                             color: Colors.green,
@@ -296,7 +296,7 @@ class _CBScreenState extends State<CBScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
-                                    children: <Widget>[
+                                    children: const <Widget>[
                                       Text("Exceeded Limit",
                                           style: TextStyle(
                                             color: Colors.red,
